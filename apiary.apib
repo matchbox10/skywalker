@@ -3,6 +3,9 @@ FORMAT: 1A
 # Skywalker
 Proof of concept API for integration into Pricing tools. Lots of work still to do but should serve as a starting point for discussion.
 
+## Purpose
+
+This is a live, documentaion based API design. The API requests and response will be defined in this document before being then developed.
 
 # API Root [/]
 API entry point.
@@ -88,6 +91,9 @@ Returns a single site with all its attributes.
     + Body
     
             { "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB" }
+
+### Remove a Site [DELETE]
++ Response 204
 
 # Group Services
 Service related resources of the **Skywalker API**. Read only access to all objects.
