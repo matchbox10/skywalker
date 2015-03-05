@@ -3,6 +3,26 @@ FORMAT: 1A
 # Skywalker
 Proof of concept API for integration into Pricing tools.
 
+# API Root [/]
+API entry point.
+
+This resource does not have any attributes.
+
+## Retrieve Entry Point [GET]
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: <https://app.apiary.io/skywalker1/>;rel="self",<https://app.apiary.io/skywalker1/sites>;rel="sites"
+
+    + Body
+    
+            {
+                "_links": {
+                    "self": { "href": "/" },
+                    "sites": { "href": "/sites", "templated": true }
+                }
+            }
+
 # Group Sites
 Site related resources of the **Skywalker API**. Read only access to all objects.
 
