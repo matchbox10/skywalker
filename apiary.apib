@@ -1,18 +1,23 @@
 FORMAT: 1A
 
 # Skywalker
-Proof of concept API for integration into Pricing tools.
+Proof of concept API for integration into Pricing tools. Lots of work still to do but should serve as a starting point for discussion.
+
 
 # API Root [/]
 API entry point.
 
-This resource does not have any attributes.
+This resource does not have any attributes. Instead it offers the initial API affordances in the form of the HTTP Link header and HAL links.
+
+### Todo
+
+- Update for live API and decide what we want to display.
 
 ## Retrieve Entry Point [GET]
 + Response 200 (application/hal+json)
     + Headers
     
-            Link: <https://app.apiary.io/skywalker1/>;rel="self",<https://app.apiary.io/skywalker1/sites>;rel="sites"
+            Link: <https://skywalker1.apiary.io/>;rel="self",<https://skywalker1.apiary.io/>;rel="sites"
 
     + Body
     
@@ -24,9 +29,16 @@ This resource does not have any attributes.
             }
 
 # Group Sites
-Site related resources of the **Skywalker API**. Read only access to all objects.
+Site related resources. Read only access to all resources.
 
-## Sites Collection [/sites]
+### Todo
+
+- Define Fields to be returned.
+- Define if we will allow creation, editing and deletion of sites.
+
+## Site List [/sites]
+Returns a list of all sites.
+
 ### List all Sites [GET]
 + Response 200 (application/json)
 
@@ -36,8 +48,29 @@ Site related resources of the **Skywalker API**. Read only access to all objects
             "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
         }]
 
-## Site [/sites/{id}]
-A single Site object with all its details
+## Site Search [/sites/{?search}]
+Returns a list of sites based on the search query.
+
++ Parameters
+    + search ( optional, string, `E14%202AB` ) ... Query string to search for. Spaces and white space should be escaped.
+
+### Search for a Site [GET]
++ Response 200 (application/json)
+
+    + Header
+    
+            X-Site-Query: The Value
+            
+    + Body
+    
+            [{
+                "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
+            }, {
+                "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
+            }]        
+
+## Single Site [/sites/{id}]
+Returns a single site with all its attributes.
 
 + Parameters
     + id ( required, number, `1` ) ... Number `id` of the Site to perform action with. Has example value.
