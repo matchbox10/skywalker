@@ -1,46 +1,23 @@
 FORMAT: 1A
 
 # Skywalker
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+Proof of concept API for integration into Pricing tools.
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Sites
+Site related resources of the **Skywalker API**
 
-## Notes Collection [/notes]
-### List all Notes [GET]
+## Sites Collection [/sites]
+### List all Sites [GET]
 + Response 200 (application/json)
 
         [{
-          "id": 1, "title": "Jogging in park"
+            "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
         }, {
-          "id": 2, "title": "Pick-up posters from post-office"
+            "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
         }]
 
-### Create a Note [POST]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-
-+ Response 201 (application/json)
-
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
+## Site [/sites/{id}]
+A single Site object with all its details
 
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-
-### Remove a Note [DELETE]
-+ Response 204
+    + id ( required, number, `1` ) ... Number `id` of the Site to perform action with. Has example value.
