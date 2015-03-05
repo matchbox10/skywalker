@@ -4,7 +4,7 @@ FORMAT: 1A
 Proof of concept API for integration into Pricing tools.
 
 # Group Sites
-Site related resources of the **Skywalker API**
+Site related resources of the **Skywalker API**. Read only access to all objects.
 
 ## Sites Collection [/sites]
 ### List all Sites [GET]
@@ -21,3 +21,25 @@ A single Site object with all its details
 
 + Parameters
     + id ( required, number, `1` ) ... Number `id` of the Site to perform action with. Has example value.
+
+### Retrieve a Site [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-Site-ID: The Value
+        
+    + Body
+    
+            { "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB" }
+
+# Group Services
+Service related resources of the **Skywalker API**. Read only access to all objects.
+
+## Services Collection [/services]
+
+# Group Pricing
+Pricing related resources of the **Skywalker API**.
+
+## Pricing Collection [/pricing]
+
