@@ -212,6 +212,18 @@ List of all cities.
             "id": 2, "name": "Berlin", "country": "Germany"
         }]
 
+### Create New City [POST]
+To create a new city pass the following parameters as JSON attributes.
++ Request (application/json)
+
+        {
+            "name": "Paris", "country": "France"  
+        }
+        
++ Response 201
+        
+        [City]
+
 ## City Search [/cities/{?search}]
 Returns a list of cities based on the search query.
 
