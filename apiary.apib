@@ -191,8 +191,71 @@ This resource does not have any attributes. Instead it offers the initial API af
                 }
             }
 
+# Group Cities
+City related resources.
+
+### Todo
+
+- Define Fields to be returned.
+- Define if we will allow creation, editing and deletion of cities.
+- Do we want to be able to return associated sites per city?
+
+## City List [/cities]
+List of all cities.
+
+### List all Cities [GET]
++ Response 200 (application/json)
+
+        [{
+            "id": 1, "name": "London", "country": "United Kingdom"
+        }, {
+            "id": 2, "name": "Berlin", "country": "Germany"
+        }]
+
+## City Search [/cities/{?search}]
+Returns a list of cities based on the search query.
+
+### Todo
+- Define how we handle ambiguities.
+
++ Parameters
+    + search ( optional, string, `london` ) ... Query string to search for. Spaces and white space should be escaped.
+
+### Search for a City [GET]
++ Response 200 (application/json)
+
+    + Header
+    
+            X-City-Query: The Value
+            
+    + Body
+    
+            [{
+                "id": 1, "name": "London", "country": "United Kingdom"
+            }]        
+
+## Single City [/cities/{id}]
+Returns a single city with all its attributes.
+
++ Parameters
+    + id ( required, number, `1` ) ... Number `id` of the City to perform action with. Has example value.
+
+### Retrieve a City [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-City-ID: The Value
+        
+    + Body
+    
+            { "id": 1, "name": "London", "country": "United Kingdom" }
+
+### Remove a City [DELETE]
++ Response 204
+
 # Group Sites
-Site related resources. Read only access to all resources.
+Site related resources.
 
 ### Todo
 
@@ -206,9 +269,9 @@ List of all sites.
 + Response 200 (application/json)
 
         [{
-            "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
+            "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB", "city_id": 1
         }, {
-            "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
+            "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB", "city_id": 4
         }]
 
 ## Site Search [/sites/{?search}]
