@@ -318,13 +318,112 @@ Returns a single site with all its attributes.
 ### Remove a Site [DELETE]
 + Response 204
 
+# Group Products
+Product related resources.
+
+## Product List [/products]
+Returns a list of available products.
+
+### List all Products [GET]
++ Response 200 (application/json)
+
+        [{
+            "id": 1, "name": "Product Name 1"
+        }, {
+            "id": 2, "name": "Product Name 2"
+        }]
+
+## Single Product [/products/{id}]
+Returns a single product with all its attributes.
+
++ Parameters
+    + id ( required, number, `1` ) ... Number `id` of the Product to perform action with. Has example value.
+
+### Retrieve a Product [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-Product-ID: The Value
+        
+    + Body
+    
+            { "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB" }
+
+### Remove a Product [DELETE]
++ Response 204
+
 # Group Services
-Service related resources of the **Skywalker API**. Read only access to all objects.
+Service related resources.
 
-## Services Collection [/services]
+## Service List [/services]
+Returns a list of available services.
 
-# Group Pricing
-Pricing related resources of the **Skywalker API**.
+### List all Services [GET]
++ Response 200 (application/json)
 
-## Pricing Collection [/pricing]
+        [{
+            "id": 1, "name": "Service Name 1", "product_id": 1
+        }, {
+            "id": 2, "name": "Service Name 2", "product_id": 1
+        }]
 
+## Single Service [/services/{id}]
+Returns a single service with all its attributes.
+
++ Parameters
+    + id ( required, number, `1` ) ... Number `id` of the Service to perform action with. Has example value.
+
+### Retrieve a Service [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-Service-ID: The Value
+        
+    + Body
+    
+            { "id": 1, "name": "Service Name 1", "product_id": 1 }
+
+### Remove a Service [DELETE]
++ Response 204
+
+# Group Quotes
+Pricing related resources.
+
+## Quote List [/quotes]
+Returns a list of quotes created or assigned to the user.
+
+### Todo
+- Determine how we want to show ALL quotes to internal users.
+- Can customers return quotes from other users within their own organisation?
+- LOTS of fields need defining
+
+### List all Quotes [GET]
++ Response 200 (application/json)
+
+        [{
+            "id": 1, "name": "Quote 1"
+        }, {
+            "id": 2, "name": "Quote 2"
+        }]
+
+## Single Quote [/quotes/{id}]
+Returns a single quote with all its attributes.
+
++ Parameters
+    + id ( required, number, `1` ) ... Number `id` of the Quote to perform action with. Has example value.
+
+### Retrieve a Quote [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-Quote-ID: The Value
+        
+    + Body
+    
+            { "id": 1, "name": "Quote 1" }
+
+### Remove a Service [DELETE]
++ Response 204
