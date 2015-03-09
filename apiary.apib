@@ -3,10 +3,6 @@ FORMAT: 1A
 # Skywalker
 Proof of concept API for integration into Pricing tools. Lots of work still to do but should serve as a starting point for discussion.
 
-# Guidelines
-
-## Purpose
-
 This is a live, documentaion based API design. The API requests and response will be defined in this document before being then developed.
 
 ## Guidelines
@@ -26,6 +22,7 @@ These guidelines aim to support a truly RESTful API. Here are a few exceptions:
 * Allow users to request formats like JSON or XML like this:
     * http://www.skywalker.net/api/v1/sites.json
     * http://www.skywalker.net/api/v1/sites.xml
+* Default response should be formatted as JSON.
 
 ## RESTful URLs
 
@@ -169,9 +166,74 @@ JSONP is easiest explained with an example. Here's one from [StackOverflow](http
 
 http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about?answertab=votes#tab-top
 
-# Authentication
-## OAuth2
+## Authentication and Security
 
+### SSL
+
+All requests should only be made via SSL. `https://www.skywalker.net/api`. The service will not accept connections on port 80/HTTP.
+
+### OAuth
+
+Authentication is handled via [OAuth2](http://oauth.net/). OAuth2 is a protocol that lets external apps request authorization to private details in a user’s GitHub account without getting their password. This is preferred over Basic Authentication because tokens can be limited to specific types of data, and can be revoked by users at any time.
+
+Requests that require authentication should return a `403 Forbidden` error in the event of no authentication.
+
+### OAuth2 Token (sent in a header)
+
+`$ curl -H "Authorization: token OAUTH-TOKEN" https://www.skywalker.net/api/v1/`
+
+### OAuth2 Token (sent as a parameter)
+
+`$ curl "https://www.skywalker.net/api/v1/sites/?access_token=OAUTH-TOKEN"`
+
+### OAuth2 Key/Secret
+
+`$ curl "https://www.skywalker.net/api/v1/sites/?client_id=xxxx&amp;client_secret=yyyy"`
+
+This should only be used in server to server scenarios. Don’t leak your OAuth application’s client secret to your users.
+
+### Failed Login Limit
+
+Authenticating with invalid credentials will return `401 Unauthorized`:
+
+    $ curl -i https://www.skywalker.net/api/v1/ -u foo:bar
+
+    HTTP/1.1 401 Unauthorized
+
+    {
+        "message": "Bad credentials",
+        "documentation_url": "https://developer.skywalker.net/v1"
+    }
+
+After detecting several requests with invalid credentials within a short period, the API will temporarily reject all authentication attempts for that user (including ones with valid credentials) with `403 Forbidden`:
+
+    $ curl -i https://www.skywalker.net/api/v1 -u valid_username:valid_password
+
+    HTTP/1.1 403 Forbidden
+
+    {
+        "message": "Maximum number of login attempts exceeded. Please try again later.",
+        "documentation_url": "https://developer.skywalker.net/v1"
+    }
+
+### User Agent Required
+
+All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. We request that you use your API username, or the name of your application, for the User-Agent header value. This allows us to contact you if there are problems.
+
+Here’s an example:
+
+    User-Agent: Awesome-Skywalker-App
+
+If you provide an invalid User-Agent header, you will receive a `403 Forbidden` response:
+
+    $ curl -iH 'User-Agent: ' https://www.skywalker.net/api
+    HTTP/1.0 403 Forbidden
+    Connection: close
+    Content-Type: text/html
+
+    Request forbidden by administrative rules.
+    Please make sure your request has a User-Agent header.
+    Check https://developer.skywalker.net for other possible causes.
 
 # API Root [/]
 API entry point.
