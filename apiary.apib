@@ -271,10 +271,10 @@ City related resources.
 - Define if we will allow creation, editing and deletion of cities.
 - Do we want to be able to return associated sites per city?
 
-## City List [/cities]
+## List Cities [/cities]
 List of all cities.
 
-### List all Cities [GET]
+### List All Cities [GET]
 + Response 200 (application/json)
 
         [{
@@ -283,7 +283,7 @@ List of all cities.
             "id": 2, "name": "Berlin", "country": "Germany"
         }]
 
-### Create New City [POST]
+### Create A New City [POST]
 To create a new city pass the following parameters as JSON attributes.
 + Request (application/json)
 
@@ -293,9 +293,9 @@ To create a new city pass the following parameters as JSON attributes.
         
 + Response 201
         
-        [City]
+    [City][]
 
-## City Search [/cities/{?search}]
+## Search Cities [/cities/{?search}]
 Returns a list of cities based on the search query.
 
 ### Todo
@@ -317,13 +317,27 @@ Returns a list of cities based on the search query.
                 "id": 1, "name": "London", "country": "United Kingdom"
             }]        
 
-## Single City [/cities/{id}]
+## City [/cities/{id}]
 Returns a single city with all its attributes.
 
 + Parameters
     + id ( required, number, `1` ) ... Number `id` of the City to perform action with. Has example value.
 
-### Retrieve a City [GET]
++ Model (application/json)
+    
+    JSON Reporesentation of the City resource.
+
+    + Headers
+    
+    + Body
+    
+            {
+                "id": 1,
+                "name": "London",
+                "country": "United Kingdom"
+            }
+        
+### Get Single City [GET]
 + Response 200 (application/json)
 
     + Header
@@ -334,7 +348,18 @@ Returns a single city with all its attributes.
     
             { "id": 1, "name": "London", "country": "United Kingdom" }
 
-### Remove a City [DELETE]
+### Edit City [PATCH]
++ Request (application/json)
+    
+        {
+            "country": "UK"
+        }
+
++ Response 200
+
+    [City][]
+
+### Delete a City [DELETE]
 + Response 204
 
 # Group Sites
@@ -510,3 +535,6 @@ Returns a single quote with all its attributes.
 
 ### Remove a Service [DELETE]
 + Response 204
+
+# Group Orders
+TBD
