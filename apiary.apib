@@ -506,6 +506,21 @@ Returns a list of quotes created or assigned to the user.
             "id": 2, "reference": "Quote 2", "site_id": 2, "site_b_id": 6, "product_id": 2, "service_id": 1, "customer_id": 1, "term": 5, "lease_type": "annual", "mrc": "2500.00", "nrc": "10000.00"
         }]
 
+### Create A New Quote [POST]
+To create a new quote pass the following parameters as JSON attributes. Currency will always be EUR. Customer ID will be auto-populated.
+
++ Request (application/json)
+
+        {
+            "reference": "My internal reference", "site_id": 1, "site_b_id": 4, "product_id": 1, "service_id": 2, "term": 3, "lease_type": "monthly"  
+        }
+        
++ Response 201
+        
+        {
+            "id": 2, "reference": "My internal reference", "site_id": 1, "site_b_id": 4, "product_id": 1, "service_id": 1, "customer_id": 1, "term": 3, "lease_type": "monthly", "mrc": "750.00", "nrc": "2500.00"
+        }
+
 ## Single Quote [/quotes/{id}]
 Returns a single quote with all its attributes.
 
