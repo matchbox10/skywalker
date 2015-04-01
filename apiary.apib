@@ -416,54 +416,23 @@ Returns a single site with all its attributes.
 ### Remove a Site [DELETE]
 + Response 204
 
-# Group Products
-Product related resources.
-
-## Product List [/products]
-Returns a list of available products.
-
-### List all Products [GET]
-+ Response 200 (application/json)
-
-        [{
-            "id": 1, "name": "Product Name 1"
-        }, {
-            "id": 2, "name": "Product Name 2"
-        }]
-
-## Single Product [/products/{id}]
-Returns a single product with all its attributes.
-
-+ Parameters
-    + id ( required, number, `1` ) ... Number `id` of the Product to perform action with. Has example value.
-
-### Retrieve a Product [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-Product-ID: The Value
-        
-    + Body
-    
-            { "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB" }
-
-### Remove a Product [DELETE]
-+ Response 204
-
 # Group Services
 Service related resources.
 
-## Service List [/services]
+## Product List [/services]
 Returns a list of available services.
 
 ### List all Services [GET]
 + Response 200 (application/json)
 
         [{
-            "id": 1, "name": "Service Name 1", "product_id": 1
+            "id": 1, "name": "Wavelength - SDH/SONET"
         }, {
-            "id": 2, "name": "Service Name 2", "product_id": 1
+            "id": 2, "name": "Wavelength - OTN"
+        }, {
+            "id": 3, "name": "Wavelength - Ethernet"
+        }, {
+            "id": 4, "name": "Fast Trade"
         }]
 
 ## Single Service [/services/{id}]
@@ -477,13 +446,56 @@ Returns a single service with all its attributes.
 
     + Header
 
+            X-Product-ID: The Value
+        
+    + Body
+    
+            { "id": 1, "name": "Wavelength - SDH/SONET" }
+
+### Remove a Service [DELETE]
++ Response 204
+
+# Group Ports/Interfaces
+Port/Interface related resources.
+
+## Port List [/ports]
+Returns a list of available ports.
+
+### List all Ports [GET]
++ Response 200 (application/json)
+
+        [{
+            "id": 1, "name": "STM16/OC48", "service_id": 1
+        }, {
+            "id": 2, "name": "STM64/OC192", "service_id": 1
+        },{
+            "id": 3, "name": "OTU1", "service_id": 2
+        }, {
+            "id": 4, "name": "OTU2", "service_id": 2
+        },{
+            "id": 5, "name": "GigE", "service_id": 3
+        }, {
+            "id": 6, "name": "10GigE", "service_id": 3
+        }]
+
+## Single Port [/ports/{id}]
+Returns a single service with all its attributes.
+
++ Parameters
+    + id ( required, number, `1` ) ... Number `id` of the Port to perform action with. Has example value.
+
+### Retrieve a Port [GET]
++ Response 200 (application/json)
+
+    + Header
+
             X-Service-ID: The Value
         
     + Body
     
-            { "id": 1, "name": "Service Name 1", "product_id": 1 }
+            { "id": 1, "name": "STM16/OC48", "service_id": 1 }
 
-### Remove a Service [DELETE]
+### Remove a Port [DELETE]
 + Response 204
 
 # Group Quotes
