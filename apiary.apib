@@ -128,44 +128,6 @@ Information about record limits and total available count should also be include
         "results": []
     }
 
-## Mock Responses
-It is suggested that each resource accept a 'mock' parameter on the testing server. Passing this parameter should return a mock data response (bypassing the backend).
-
-Implementing this feature early in development ensures that the API will exhibit consistent behavior, supporting a test driven development methodology.
-
-Note: If the mock parameter is included in a request to the production environment, an error should be raised.
-
-
-## JSONP
-
-JSONP is easiest explained with an example. Here's one from [StackOverflow](http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about?answertab=votes#tab-top):
-
-> Say you're on domain abc.com, and you want to make a request to domain xyz.com. To do so, you need to cross domain boundaries, a no-no in most of browserland.
-
-> The one item that bypasses this limitation is `<script>` tags. When you use a script tag, the domain limitation is ignored, but under normal circumstances, you can't really DO anything with the results, the script just gets evaluated.
-
-> Enter JSONP. When you make your request to a server that is JSONP enabled, you pass a special parameter that tells the server a little bit about your page. That way, the server is able to nicely wrap up its response in a way that your page can handle.
-
-> For example, say the server expects a parameter called "callback" to enable its JSONP capabilities. Then your request would look like:
-
->         http://www.xyz.com/sample.aspx?callback=mycallback
-
-> Without JSONP, this might return some basic javascript object, like so:
-
->         { foo: 'bar' }
-
-> However, with JSONP, when the server receives the "callback" parameter, it wraps up the result a little differently, returning something like this:
-
->         mycallback({ foo: 'bar' });
-
-> As you can see, it will now invoke the method you specified. So, in your page, you define the callback function:
-
->         mycallback = function(data){
->             alert(data.foo);
->         };
-
-http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about?answertab=votes#tab-top
-
 ## Authentication and Security
 
 ### SSL
@@ -174,7 +136,7 @@ All requests should only be made via SSL. `https://www.skywalker.net/api`. The s
 
 ### OAuth
 
-Authentication is handled via [OAuth2](http://oauth.net/). OAuth2 is a protocol that lets external apps request authorization to private details in a user’s GitHub account without getting their password. This is preferred over Basic Authentication because tokens can be limited to specific types of data, and can be revoked by users at any time.
+Authentication is handled via [OAuth2](http://oauth.net/). OAuth2 is a protocol that lets external apps request authorization to private details in a user’s account without getting their password. This is preferred over Basic Authentication because tokens can be limited to specific types of data, and can be revoked by users at any time.
 
 Requests that require authentication should return a `403 Forbidden` error in the event of no authentication.
 
@@ -265,12 +227,6 @@ This resource does not have any attributes. Instead it offers the initial API af
 # Group Cities
 City related resources.
 
-### Todo
-
-- Define Fields to be returned.
-- Define if we will allow creation, editing and deletion of cities.
-- Do we want to be able to return associated sites per city?
-
 ## List Cities [/cities]
 List of all cities.
 
@@ -283,25 +239,8 @@ List of all cities.
             "id": 2, "name": "Berlin", "country": "Germany"
         }]
 
-### Create A New City [POST]
-To create a new city pass the following parameters as JSON attributes.
-+ Request (application/json)
-
-        {
-            "name": "Paris", "country": "France"  
-        }
-        
-+ Response 201
-        
-        {
-            "id": 3, "name": "Paris", "country": "France"
-        }
-
 ## Search Cities [/cities/{?search}]
 Returns a list of cities based on the search query.
-
-### Todo
-- Define how we handle ambiguities.
 
 + Parameters
     + search ( optional, string, `london` ) ... Query string to search for. Spaces and white space should be escaped.
@@ -319,7 +258,7 @@ Returns a list of cities based on the search query.
                 "id": 1, "name": "London", "country": "United Kingdom"
             }]        
 
-## City [/cities/{id}]
+## City [/city/{id}]
 Returns a single city with all its attributes.
 
 + Parameters
@@ -336,29 +275,12 @@ Returns a single city with all its attributes.
     
             { "id": 1, "name": "London", "country": "United Kingdom" }
 
-### Edit City [PATCH]
-+ Request (application/json)
-    
-        {
-            "country": "UK"
-        }
-
-+ Response 200
-
-        {
-            "id": 1, "name": "London", "country": "UK"
-        }
-
-### Delete a City [DELETE]
-+ Response 204
-
 # Group Sites
 Site related resources.
 
 ### Todo
 
 - Define Fields to be returned.
-- Define if we will allow creation, editing and deletion of sites.
 
 ## Site List [/sites]
 List of all sites.
@@ -367,9 +289,9 @@ List of all sites.
 + Response 200 (application/json)
 
         [{
-            "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB", "city_id": 1
+            "id": 1, "site_code": "LON-200", "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "region": "London", "country": "United Kingdom", "postal_code": "E14 2AB", "city_id": 1
         }, {
-            "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB", "city_id": 4
+            "id": 2, "site_code": "SLO-001", "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "region": "London", "country": "United Kingdom", "postal_code": "E14 2AB", "city_id": 4
         }]
 
 ## Site Search [/sites/{?search}]
@@ -391,12 +313,12 @@ Returns a list of sites based on the search query.
     + Body
     
             [{
-                "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
+                "id": 1, "site_code": "LON-200", "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "region": "London", "country": "United Kingdom", "postal_code": "E14 2AB"
             }, {
-                "id": 2, "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB"
+                "id": 2, "site_code": "SLO-001", "name": "Site Name 2", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "region": "London", "country": "United Kingdom", "postal_code": "E14 2AB"
             }]        
 
-## Single Site [/sites/{id}]
+## Single Site [/site/{id}]
 Returns a single site with all its attributes.
 
 + Parameters
@@ -411,10 +333,7 @@ Returns a single site with all its attributes.
         
     + Body
     
-            { "id": 1, "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "county": "London", "country": "United Kingdom", "postcode": "E14 2AB" }
-
-### Remove a Site [DELETE]
-+ Response 204
+            { "id": 1, "site_code": "LON-200", "name": "Site Name 1", "address line 1": "123 Anystreet", "address line 2": "", "address line 3": "", "town": "London", "region": "London", "country": "United Kingdom", "postal_code": "E14 2AB" }
 
 # Group Services
 Service related resources.
@@ -435,7 +354,7 @@ Returns a list of available services.
             "id": 4, "name": "Fast Trade"
         }]
 
-## Single Service [/services/{id}]
+## Single Service [/service/{id}]
 Returns a single service with all its attributes.
 
 + Parameters
@@ -451,9 +370,6 @@ Returns a single service with all its attributes.
     + Body
     
             { "id": 1, "name": "Wavelength - SDH/SONET" }
-
-### Remove a Service [DELETE]
-+ Response 204
 
 # Group Ports/Interfaces
 Port/Interface related resources.
@@ -478,7 +394,7 @@ Returns a list of available ports.
             "id": 6, "name": "10GigE", "service_id": 3
         }]
 
-## Single Port [/ports/{id}]
+## Single Port [/port/{id}]
 Returns a single service with all its attributes.
 
 + Parameters
@@ -495,27 +411,19 @@ Returns a single service with all its attributes.
     
             { "id": 1, "name": "STM16/OC48", "service_id": 1 }
 
-### Remove a Port [DELETE]
-+ Response 204
-
 # Group Quotes
 Pricing related resources.
 
 ## Quote List [/quotes]
 Returns a list of quotes created or assigned to the user.
 
-### Todo
-- Determine how we want to show ALL quotes to internal users.
-- Can customers return quotes from other users within their own organisation?
-- LOTS of fields need defining
-
 ### List all Quotes [GET]
 + Response 200 (application/json)
 
         [{
-            "id": 1, "reference": "Quote 1", "site_id": 1, "site_b_id": 4, "product_id": 1, "service_id": 2, "customer_id": 1, "term": 3, "lease_type": "monthly", "mrc": "3750.00", "nrc": "7500.00"
+            "id": 1, "reference": "Quote 1", "site_id": 1, "site_b_id": 4, "service_id": 1, "port_id": 2, "term": 3, "lease_type": "monthly", "mrc": "3750.00", "nrc": "7500.00"
         }, {
-            "id": 2, "reference": "Quote 2", "site_id": 2, "site_b_id": 6, "product_id": 2, "service_id": 1, "customer_id": 1, "term": 5, "lease_type": "annual", "mrc": "2500.00", "nrc": "10000.00"
+            "id": 2, "reference": "Quote 2", "site_id": 2, "site_b_id": 6, "service_id": 2, "port_id": 1, "term": 5, "lease_type": "annual", "mrc": "2500.00", "nrc": "10000.00"
         }]
 
 ### Create A New Quote [POST]
@@ -524,16 +432,16 @@ To create a new quote pass the following parameters as JSON attributes. Currency
 + Request (application/json)
 
         {
-            "reference": "My internal reference", "site_id": 1, "site_b_id": 4, "product_id": 1, "service_id": 2, "term": 3, "lease_type": "monthly"  
+            "reference": "My internal reference", "site_id": 1, "site_b_id": 4, "service_id": 1, "port_id": 2, "term": 3, "lease_type": "monthly"  
         }
         
 + Response 201
         
         {
-            "id": 2, "reference": "My internal reference", "site_id": 1, "site_b_id": 4, "product_id": 1, "service_id": 1, "customer_id": 1, "term": 3, "lease_type": "monthly", "mrc": "750.00", "nrc": "2500.00"
+            "id": 2, "reference": "My internal reference", "site_id": 1, "site_b_id": 4, "service_id": 1, "port_id": 1, "term": 3, "lease_type": "monthly", "mrc": "750.00", "nrc": "2500.00"
         }
 
-## Single Quote [/quotes/{id}]
+## Single Quote [/quote/{id}]
 Returns a single quote with all its attributes.
 
 + Parameters
@@ -548,10 +456,4 @@ Returns a single quote with all its attributes.
         
     + Body
     
-            { "id": 1, "reference": "Quote 1", "site_id": 1, "site_b_id": 4, "product_id": 1, "service_id": 2, "customer_id": 1, "term": 3, "lease_type": "monthly", "mrc": "3750.00", "nrc": "7500.00" }
-
-### Remove a Service [DELETE]
-+ Response 204
-
-# Group Orders
-TBD
+            { "id": 1, "reference": "Quote 1", "site_id": 1, "site_b_id": 4, "service_id": 1, "port_id": 2, "term": 3, "lease_type": "monthly", "mrc": "3750.00", "nrc": "7500.00" }
